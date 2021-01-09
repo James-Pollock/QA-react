@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useFetch from "./useFetch.js";
 import AutoGrid from "./AutoGrid.js";
 import {Container} from "@material-ui/core";
@@ -8,14 +8,7 @@ export default function App() {
   const [answers, setAnswers] = useState([]);
   const { get } = useFetch("http://jservice.io/api/");
 
-  useEffect(() => {
-    return()=>{
-      getRandom();
-    }
-  });
-
-  // document.addEventListener('click',handleNewQuestionClick)
-  function getRandom() {
+ function getRandom() {
     get("random")
       .then((data) => {
         setClue(data);
