@@ -9,8 +9,10 @@ export default function App() {
   const { get } = useFetch("http://jservice.io/api/");
 
   useEffect(() => {
-    getRandom();
-  }, []);
+    return()=>{
+      getRandom();
+    }
+  });
 
   // document.addEventListener('click',handleNewQuestionClick)
   function getRandom() {
