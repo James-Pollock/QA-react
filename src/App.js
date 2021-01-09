@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import useFetch from "./useFetch.js";
+import AutoGrid from "./AutoGrid.js";
+import {Container} from "@material-ui/core";
 
-function App() {
+export default function App() {
+  const [clue, setClue] = useState([]);
+  const [answers, setAnswers] = useState([]);
+  const { get } = useFetch("http://jservice.io/api/");
+
+  useEffect(() => {
+    getRandom();
+  }, []);
+
+  // document.addEventListener('click',handleNewQuestionClick)
+  function getRandom() {
+    get("random")
+      .then((data) => {
+        setClue(data);
+        if (answers.length > 0) {
+          setAnswers([]);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleNewQuestionClick(e) {
+    getRandom();
+  }
+
+  function handleAnswerClick() {
+    setAnswers(clue);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <AutoGrid
+        clue={clue}
+        answers={answers}
+        onNewQuestionClick={handleNewQuestionClick}
+        onAnswerClick={handleAnswerClick}
+      />
+    </Container>
   );
 }
-
-export default App;
